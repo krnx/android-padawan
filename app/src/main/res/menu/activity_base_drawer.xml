@@ -9,8 +9,8 @@
             android:id="@+id/ranking"
             android:title="@string/ranking" />
         <item
-            android:id="@+id/activity3"
-            android:title="Activity3" />
+            android:id="@+id/player"
+            android:title="@string/player" />
     </group>
 
 </menu>
