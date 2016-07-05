@@ -25,7 +25,7 @@ public class CalculadoraActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_clac);
+        setContentView(R.layout.activity_calculadora);
 
         Button u = (Button) findViewById(R.id.u);
         Button dos = (Button) findViewById(R.id.dos);

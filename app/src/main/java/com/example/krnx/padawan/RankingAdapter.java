@@ -59,11 +59,11 @@ public class RankingAdapter extends RecyclerView.Adapter<RankingAdapter.AdapterV
         switch (iconLayout){
             case 0:
                 //male
-                adapterViewholder.icon.setImageDrawable(adapterViewholder.v.getResources().getDrawable(R.mipmap.user_ranking));
+                adapterViewholder.icon.setImageDrawable(adapterViewholder.v.getResources().getDrawable(R.mipmap.avatar));
                 break;
             case 1:
                 //female
-                adapterViewholder.icon.setImageDrawable(adapterViewholder.v.getResources().getDrawable(R.mipmap.user_ranking));
+                adapterViewholder.icon.setImageDrawable(adapterViewholder.v.getResources().getDrawable(R.mipmap.avatar));
                 break;
         }
         adapterViewholder.name.setText(contactos.get(position).getName());

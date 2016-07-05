@@ -6,8 +6,8 @@
             android:id="@+id/calculadora"
             android:title="@string/calculadora" />
         <item
-            android:id="@+id/activity2"
-            android:title="Activity2" />
+            android:id="@+id/ranking"
+            android:title="@string/ranking" />
         <item
             android:id="@+id/activity3"
             android:title="Activity3" />

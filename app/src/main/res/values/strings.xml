@@ -6,6 +6,7 @@
     <string name="signed_out">signed out</string>
     <string name="loginError">Usuari o contrasenya incorrectes</string>
     <string name="calculadora">Calculadora</string>
+    <string name="ranking">Ranking</string>
 
 
 </resources>

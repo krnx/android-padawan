@@ -51,12 +51,9 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             case R.id.calculadora:
                 startActivity(new Intent(getApplicationContext(), CalculadoraActivity.class));
                 break;
-            /*case R.id.activity2:
-                startActivity(new Intent(getApplicationContext(), Activity2.class));
+            case R.id.ranking:
+                startActivity(new Intent(getApplicationContext(), RankingActivity.class));
                 break;
-            case R.id.activity3:
-                startActivity(new Intent(getApplicationContext(), Activity3.class));
-                break;*/
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
