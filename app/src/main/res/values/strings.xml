@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="navigation_drawer_open">Open</string>
+    <string name="navigation_drawer_close">Close</string>
+    <string name="signed_in_fmt">signed in fmt</string>
+    <string name="signed_out">signed out</string>
+    <string name="loginError">Usuari o contrasenya incorrectes</string>
+    <string name="calculadora">Calculadora</string>
+
+
+</resources>

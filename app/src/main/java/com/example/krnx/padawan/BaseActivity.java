@@ -1,0 +1,83 @@
+package com.example.krnx.padawan;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
+import android.widget.FrameLayout;
+
+/**
+ * Created by inlab on 30/06/2016.
+ */
+public class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    private NavigationView navigationView;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        super.setContentView(R.layout.activity_base);
+        setView();
+    }
+
+    protected void setView() {
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        if (drawer != null) {
+            drawer.setDrawerListener(toggle);
+        }
+        toggle.syncState();
+
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.calculadora:
+                startActivity(new Intent(getApplicationContext(), CalculadoraActivity.class));
+                break;
+            /*case R.id.activity2:
+                startActivity(new Intent(getApplicationContext(), Activity2.class));
+                break;
+            case R.id.activity3:
+                startActivity(new Intent(getApplicationContext(), Activity3.class));
+                break;*/
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    @Override
+    public void setContentView(int layoutResID) {
+
+        DrawerLayout fullLayout = (DrawerLayout) getLayoutInflater().inflate(R.layout.activity_base, null);
+        FrameLayout frameLayout = (FrameLayout) fullLayout.findViewById(R.id.frame_layout_base);
+
+        getLayoutInflater().inflate(layoutResID, frameLayout, true);
+
+        super.setContentView(fullLayout);
+        setView();
+    }
+
+    public void checkMenuItem(int activity) {
+        for (int i = 0; i < navigationView.getMenu().size(); ++i) navigationView.getMenu().getItem(i).setChecked(false);
+        navigationView.getMenu().getItem(activity).setChecked(true);
+    }
+}
