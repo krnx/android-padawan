@@ -57,6 +57,9 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             case R.id.player:
                 startActivity(new Intent(getApplicationContext(), PlayerActivity.class));
                 break;
+            case R.id.sensor:
+                startActivity(new Intent(getApplicationContext(), SensorActivity.class));
+                break;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

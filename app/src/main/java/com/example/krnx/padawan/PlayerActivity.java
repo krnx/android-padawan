@@ -26,6 +26,8 @@ import java.io.IOException;
  */
 public class PlayerActivity extends BaseActivity {
     private MediaPlayer mediaPlayer = new MediaPlayer();
+    //private static final int MY_PERMISSIONS_REQUEST_WRITE_CONTACTS = 1;
+    private static final int MY_PERMISSIONS_REQUEST_WRITE_CONTACTS = 123;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +40,47 @@ public class PlayerActivity extends BaseActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                int permissionCheck = ContextCompat.checkSelfPermission(PlayerActivity.this, Manifest.permission.CAMERA);
+
+                Log.v("Player", "Check: " + permissionCheck);
+                Log.v("Player", "Rationel: " + ActivityCompat.shouldShowRequestPermissionRationale(PlayerActivity.this, Manifest.permission.WRITE_CONTACTS));
+                ActivityCompat.requestPermissions(PlayerActivity.this, new String[]{Manifest.permission.CAMERA}, MY_PERMISSIONS_REQUEST_WRITE_CONTACTS);
+
+                /*
+                Log.v("Player", "Check: " + permissionCheck);
+                Log.v("Player", "Rationel: " + ActivityCompat.shouldShowRequestPermissionRationale(PlayerActivity.this, Manifest.permission.WRITE_CONTACTS));
+                ActivityCompat.requestPermissions(PlayerActivity.this, new String[]{Manifest.permission.WRITE_CONTACTS}, MY_PERMISSIONS_REQUEST_WRITE_CONTACTS);
+
+
+                if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(PlayerActivity.this, Manifest.permission.WRITE_CONTACTS)) {
+                        Snackbar.make(findViewById(R.id.player_layout), "Location access is required to show coffee shops nearby.", Snackbar.LENGTH_LONG)
+                                .setAction("OK", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        ActivityCompat.requestPermissions(PlayerActivity.this, new String[]{Manifest.permission.WRITE_CONTACTS}, MY_PERMISSIONS_REQUEST_WRITE_CONTACTS);
+                                    }
+                                })
+                                .show();
+//                                v => ActivityCompat.requestPermissions(this, Manifest.permission.READ_PHONE_STATE));
+
+
+//                showExplanation("Permission Needed", "Rationale", Manifest.permission.READ_PHONE_STATE, 1);
+//                Toast.makeText(this, "Need permission", Toast.LENGTH_LONG).show();
+                    } else {
+                        //requestPermission(Manifest.permission.READ_PHONE_STATE, 1);
+//                Toast.makeText(this, "Need permission2", Toast.LENGTH_LONG).show();
+                        Snackbar.make(findViewById(R.id.player_layout), "Permisos sense motiu.", Snackbar.LENGTH_LONG).
+                                setAction("OK", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        ActivityCompat.requestPermissions(PlayerActivity.this, new String[]{Manifest.permission.WRITE_CONTACTS}, MY_PERMISSIONS_REQUEST_WRITE_CONTACTS);
+                                    }
+                                }).show();
+                    }
+                } else {
+                    Toast.makeText(PlayerActivity.this, "Permission (already) Granted!", Toast.LENGTH_SHORT).show();
+                }*/
             }
         });
 
@@ -47,35 +88,6 @@ public class PlayerActivity extends BaseActivity {
 //                ActivityCompat.requestPermissions(PlayerActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
 
 
-        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE);
-        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_PHONE_STATE)) {
-                Snackbar.make(findViewById(R.id.player_layout), "Location access is required to show coffee shops nearby.", Snackbar.LENGTH_LONG).
-                        setAction("OK", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                ActivityCompat.requestPermissions(PlayerActivity.this, new String[]{Manifest.permission.READ_PHONE_STATE}, 1);
-                            }
-                        }).show();
-//                                v => ActivityCompat.requestPermissions(this, Manifest.permission.READ_PHONE_STATE));
-
-
-                //showExplanation("Permission Needed", "Rationale", Manifest.permission.READ_PHONE_STATE, 1);
-                Toast.makeText(this, "Need permission", Toast.LENGTH_LONG).show();
-            } else {
-                //requestPermission(Manifest.permission.READ_PHONE_STATE, 1);
-                Toast.makeText(this, "Need permission2", Toast.LENGTH_LONG).show();
-                Snackbar.make(findViewById(R.id.player_layout), "Location access is required to show coffee shops nearby.", Snackbar.LENGTH_LONG).
-                        setAction("OK", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                ActivityCompat.requestPermissions(PlayerActivity.this, new String[]{Manifest.permission.READ_PHONE_STATE}, 1);
-                            }
-                        }).show();
-            }
-        } else {
-            Toast.makeText(PlayerActivity.this, "Permission (already) Granted!", Toast.LENGTH_SHORT).show();
-        }
 
 
 
@@ -100,7 +112,7 @@ public class PlayerActivity extends BaseActivity {
             case 0:
                 Toast.makeText(this, "RC: " + grantResults[0], Toast.LENGTH_LONG).show();
                 // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if ((grantResults.length > 0) && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Intent file = new Intent(Intent.ACTION_PICK, MediaStore.Audio.Media.EXTERNAL_CONTENT_URI);
 //                    file.setType("file/*");
                     startActivityForResult(file, 0);
@@ -108,9 +120,9 @@ public class PlayerActivity extends BaseActivity {
                     Toast.makeText(this, "Nop!", Toast.LENGTH_LONG).show();
                 }
                 return;
-            case 1:
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            case 123:
+                Toast.makeText(getApplicationContext(), String.valueOf(grantResults[0]), Toast.LENGTH_SHORT).show();
+                if ((grantResults.length > 0) && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                     Toast.makeText(PlayerActivity.this, "Permission Granted!", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(PlayerActivity.this, "Permission Denied!", Toast.LENGTH_SHORT).show();

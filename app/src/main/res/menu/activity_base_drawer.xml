@@ -11,6 +11,9 @@
         <item
             android:id="@+id/player"
             android:title="@string/player" />
+        <item
+            android:id="@+id/sensor"
+            android:title="@string/sensor" />
     </group>
 
 </menu>
