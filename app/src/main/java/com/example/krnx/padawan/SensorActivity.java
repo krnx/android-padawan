@@ -47,7 +47,7 @@ public class SensorActivity extends BaseActivity {
                     Double val1 = Double.valueOf(d.format((double) event.values[0]));
                     Double val2 = Double.valueOf(d.format((double) event.values[1]));
                     Double val3 = Double.valueOf(d.format((double) event.values[2]));
-                    Toast.makeText(SensorActivity.this, "Resultat: " + val1.toString() + "-" + val2.toString() + "-" + val3.toString(), Toast.LENGTH_LONG);
+                    Toast.makeText(SensorActivity.this, "Resultat: " + val1.toString() + "-" + val2.toString() + "-" + val3.toString(), Toast.LENGTH_LONG).show();
 //                    t1.setText("x:" + val1.toString());
 //                    t2.setText("y:" + val2.toString());
 //                    t3.setText("z:" + val3.toString());
@@ -63,7 +63,7 @@ public class SensorActivity extends BaseActivity {
             };
             sensorManager.registerListener(sensorList, sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD), SensorManager.SENSOR_DELAY_FASTEST);
         } else {
-            Toast.makeText(SensorActivity.this, "Sensor not available", Toast.LENGTH_SHORT);
+            Toast.makeText(SensorActivity.this, "Sensor not available", Toast.LENGTH_SHORT).show();
         }
 
         lm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
@@ -79,12 +79,12 @@ public class SensorActivity extends BaseActivity {
                 }
                 for (int i = 0; i < l.size(); ++i) {
                     Log.v("LOG", l.get(i).getAddressLine(0).toString());
-                    TextView t = (TextView) findViewById(R.id.TV);
-                    if (i == 0) t.setText("");
-                    t.setText(t.getText() + "\n" + l.get(i).getAddressLine(0).toString());
+                    //TextView t = (TextView) findViewById(R.id.TV);
+                    Toast.makeText(SensorActivity.this, ""+l.get(i).getAddressLine(0).toString(), Toast.LENGTH_LONG).show();
+//                    if (i == 0) t.setText("");
+//                    t.setText(t.getText() + "\n" + l.get(i).getAddressLine(0).toString());
                 }
                 Log.v("LOG", ((Double) location.getLatitude()).toString());
-                Log.v("GPS", ((Double) location.getLatitude()).toString());
             }
 
 
@@ -112,22 +112,8 @@ public class SensorActivity extends BaseActivity {
             return;
         }
         lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-    }
-}
-
-
-
-
-
-
-
-
-
-
 
         lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, lis);
         lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, lis);
     }
-
-
 }

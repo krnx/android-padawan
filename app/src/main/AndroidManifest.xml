@@ -31,6 +31,11 @@
         <activity android:name=".RankingActivity"></activity>
         <activity android:name=".PlayerActivity"></activity>
         <activity android:name=".SensorActivity"></activity>
+        <activity android:name=".TwitterActivity"></activity>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="a8853d147f2017af8b546414873337e93471a86e" />
     </application>
 
+    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

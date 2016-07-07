@@ -14,6 +14,9 @@
         <item
             android:id="@+id/sensor"
             android:title="@string/sensor" />
+        <item
+            android:id="@+id/twitter"
+            android:title="@string/twitter" />
     </group>
 
 </menu>

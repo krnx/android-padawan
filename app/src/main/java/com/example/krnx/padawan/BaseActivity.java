@@ -11,17 +11,26 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
+import com.twitter.sdk.android.Twitter;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
+import io.fabric.sdk.android.Fabric;
 
 /**
  * Created by inlab on 30/06/2016.
  */
 public class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
+    private static final String TWITTER_KEY = "U04luD6D5qaCyInE4FDModK3e";
+    private static final String TWITTER_SECRET = "2RHjSV533QBb59jLkWq2obU3UskrFTPLAT8lSQdcS4ztNsibDY";
+
     private NavigationView navigationView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.setContentView(R.layout.activity_base);
+        TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
+        Fabric.with(this, new Twitter(authConfig));
         setView();
     }
 
@@ -59,6 +68,9 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.sensor:
                 startActivity(new Intent(getApplicationContext(), SensorActivity.class));
+                break;
+            case R.id.twitter:
+                startActivity(new Intent(getApplicationContext(), TwitterActivity.class));
                 break;
         }
 

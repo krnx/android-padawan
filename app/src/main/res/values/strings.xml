@@ -98,5 +98,6 @@
     </string>
     <string name="player">Reproductor</string>
     <string name="sensor">Sensors</string>
+    <string name="twitter">Twitter Login</string>
 
 </resources>
