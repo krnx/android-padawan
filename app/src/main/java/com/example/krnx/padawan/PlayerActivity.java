@@ -46,9 +46,8 @@ public class PlayerActivity extends BaseActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
-               /* int permissionCheck = ContextCompat.checkSelfPermission(PlayerActivity.this, Manifest.permission.CAMERA);
+                insertDummyContactWrapper();
+                /* int permissionCheck = ContextCompat.checkSelfPermission(PlayerActivity.this, Manifest.permission.CAMERA);
 
                 Log.v("Player", "Check: " + permissionCheck);
                 Log.v("Player", "Rationel: " + ActivityCompat.shouldShowRequestPermissionRationale(PlayerActivity.this, Manifest.permission.WRITE_CONTACTS));
