@@ -31,6 +31,7 @@
         <activity android:name=".RankingActivity"></activity>
         <activity android:name=".PlayerActivity"></activity>
         <activity android:name=".SensorActivity"></activity>
+        <activity android:name=".MemoryActivity"></activity>
         <activity android:name=".TwitterActivity"></activity>
         <meta-data
             android:name="io.fabric.ApiKey"

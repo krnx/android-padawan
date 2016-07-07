@@ -17,6 +17,9 @@
         <item
             android:id="@+id/twitter"
             android:title="@string/twitter" />
+        <item
+            android:id="@+id/memory"
+            android:title="@string/memory" />
     </group>
 
 </menu>

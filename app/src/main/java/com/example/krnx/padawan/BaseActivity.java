@@ -72,6 +72,9 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             case R.id.twitter:
                 startActivity(new Intent(getApplicationContext(), TwitterActivity.class));
                 break;
+            case R.id.memory:
+                startActivity(new Intent(getApplicationContext(), MemoryActivity.class));
+                break;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
