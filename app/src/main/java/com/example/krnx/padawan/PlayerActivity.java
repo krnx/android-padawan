@@ -2,11 +2,16 @@ package com.example.krnx.padawan;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.ContentProviderOperation;
+import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.OperationApplicationException;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.RemoteException;
+import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -20,6 +25,7 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by arnau on 05/07/16.
@@ -40,12 +46,14 @@ public class PlayerActivity extends BaseActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int permissionCheck = ContextCompat.checkSelfPermission(PlayerActivity.this, Manifest.permission.CAMERA);
+
+
+               /* int permissionCheck = ContextCompat.checkSelfPermission(PlayerActivity.this, Manifest.permission.CAMERA);
 
                 Log.v("Player", "Check: " + permissionCheck);
                 Log.v("Player", "Rationel: " + ActivityCompat.shouldShowRequestPermissionRationale(PlayerActivity.this, Manifest.permission.WRITE_CONTACTS));
                 ActivityCompat.requestPermissions(PlayerActivity.this, new String[]{Manifest.permission.CAMERA}, MY_PERMISSIONS_REQUEST_WRITE_CONTACTS);
-
+*/
                 /*
                 Log.v("Player", "Check: " + permissionCheck);
                 Log.v("Player", "Rationel: " + ActivityCompat.shouldShowRequestPermissionRationale(PlayerActivity.this, Manifest.permission.WRITE_CONTACTS));
@@ -105,16 +113,42 @@ public class PlayerActivity extends BaseActivity {
                 }
             }*/
     }
+    final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
+
+    private void insertDummyContactWrapper() {
+        int hasWriteContactsPermission = checkSelfPermission(Manifest.permission.WRITE_CONTACTS);
+        if (hasWriteContactsPermission != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[] {Manifest.permission.WRITE_CONTACTS},
+                    REQUEST_CODE_ASK_PERMISSIONS);
+            return;
+        }
+        insertDummyContact();
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
+            case REQUEST_CODE_ASK_PERMISSIONS:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Permission Granted
+                    insertDummyContact();
+                } else {
+                    // Permission Denied
+                    Toast.makeText(PlayerActivity.this, "WRITE_CONTACTS Denied", Toast.LENGTH_SHORT)
+                            .show();
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+
+        /*switch (requestCode) {
             case 0:
                 Toast.makeText(this, "RC: " + grantResults[0], Toast.LENGTH_LONG).show();
                 // If request is cancelled, the result arrays are empty.
                 if ((grantResults.length > 0) && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Intent file = new Intent(Intent.ACTION_PICK, MediaStore.Audio.Media.EXTERNAL_CONTENT_URI);
-//                    file.setType("file/*");
+//                    file.setType("file*//*");
                     startActivityForResult(file, 0);
                 } else {
                     Toast.makeText(this, "Nop!", Toast.LENGTH_LONG).show();
@@ -129,9 +163,39 @@ public class PlayerActivity extends BaseActivity {
                 }
                 break;
 
+        }*/
+    }
+    private static final String TAG = "Contacts";
+    private void insertDummyContact() {
+        // Two operations are needed to insert a new contact.
+        ArrayList<ContentProviderOperation> operations = new ArrayList<ContentProviderOperation>(2);
+
+        // First, set up a new raw contact.
+        ContentProviderOperation.Builder op =
+                ContentProviderOperation.newInsert(ContactsContract.RawContacts.CONTENT_URI)
+                        .withValue(ContactsContract.RawContacts.ACCOUNT_TYPE, null)
+                        .withValue(ContactsContract.RawContacts.ACCOUNT_NAME, null);
+        operations.add(op.build());
+
+        // Next, set the name for the contact.
+        op = ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+                .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
+                .withValue(ContactsContract.Data.MIMETYPE,
+                        ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE)
+                .withValue(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME,
+                        "__DUMMY CONTACT from runtime permissions sample");
+        operations.add(op.build());
+
+        // Apply the operations.
+        ContentResolver resolver = getContentResolver();
+        try {
+            resolver.applyBatch(ContactsContract.AUTHORITY, operations);
+        } catch (RemoteException e) {
+            Log.d(TAG, "Could not add a new contact: " + e.getMessage());
+        } catch (OperationApplicationException e) {
+            Log.d(TAG, "Could not add a new contact: " + e.getMessage());
         }
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // Si la petición se hizo correctamente y requestCode es 0
